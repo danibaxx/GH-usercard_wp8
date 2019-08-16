@@ -3,6 +3,15 @@
            https://api.github.com/users/<your name>
 */
 
+axios.get('https://api.github.com/users/danibaxx')
+  .then(response => {
+     console.log(cardCreator(response.data));
+  })
+
+  .catch(error => {
+    console.error(error);
+  })
+
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -25,6 +34,52 @@
 */
 
 const followersArray = [];
+
+function cardCreator(user) {
+  const card = document.createElement('div');
+  card.classList.add('card');
+
+  const image = document.createElement('img');
+  image.setAttributes('src', user['avatar_url']);
+
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+
+  const h3 = document.createElement('h3');
+  h3.classList.add('name');
+  h3.textContent = user.name || "See username";
+
+  const pTags = [];
+  for(let i = 0; i < 6; i++) {
+    pTags.push(document.createElement('p'));
+  };
+
+  pTags[0].classList.add('username');
+  pTags[0].textContent = user.login;
+
+  pTags[1].textContent = `Location: ${ user.location  || "Not Availiable" }`;
+
+  pTags[2].textContent = 'Profile:';
+
+  const a = document.createElement('a');
+  const aURL = user('html_url');
+  a.href = aURL;
+  a.textContent = aURL;
+  pTags[2].appendChild('a');
+
+  pTags[3].textContent = "Followers: ";
+  pTags[3].textContent = "Followers: ";
+  pTags[3].textContent = "Followers: ";
+  cardInfo.appendChild(h3);
+  pTags.forEach(p => cardInfo.appendChild(p));
+
+  card.appendChild(image);
+  card.appendChild(cardInfo);
+
+  return card;
+}
+
+console.log(cardCreator(userInfo));
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
